@@ -22,7 +22,7 @@ pub async fn create_link(
 
     match Link::insert(link.into_inner(), &pool.get().unwrap()) {
         Ok(link) => {
-            let hash = shortener.encode(link.id as u64);
+            let hash = shortener.encode(link.id);
             HttpResponse::Ok().body(format!("http://{}/{}", host, hash))
         }
         Err(_) => HttpResponse::build(StatusCode::INTERNAL_SERVER_ERROR).finish(),
@@ -35,7 +35,7 @@ pub async fn follow_link(
     shortener: web::Data<Shortener>,
 ) -> impl Responder {
     match shortener.decode(hash.into_inner()) {
-        Ok(id) => match Link::find_by_id(id as i64, &pool.get().unwrap()) {
+        Ok(id) => match Link::find_by_id(id, &pool.get().unwrap()) {
             Ok(link) => HttpResponse::Found()
                 .header(header::LOCATION, link.url)
                 .finish(),
