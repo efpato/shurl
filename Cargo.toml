@@ -6,6 +6,8 @@ edition = "2018"
 
 [dependencies]
 actix-web = "3"
+actix-web-httpauth = "0.5"
+base64 = "0.13"
 chrono = "0.4"
 diesel = { version = "1.4.4", features = ["postgres", "r2d2", "chrono"] }
 dotenv = "0.15"
