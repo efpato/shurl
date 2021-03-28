@@ -1,9 +1,8 @@
 #[macro_use]
 extern crate diesel;
 
-use actix_web::{App, HttpServer};
+use actix_web::{middleware, App, HttpServer};
 use dotenv::dotenv;
-use log::info;
 use pretty_env_logger::env_logger;
 use std::env;
 
@@ -14,7 +13,7 @@ mod schema;
 async fn main() -> std::io::Result<()> {
     dotenv().expect("Failed to read .env file");
 
-    env::set_var("RUST_LOG", "shurl=info");
+    env::set_var("RUST_LOG", "info");
     env_logger::builder()
         .format_timestamp(Some(env_logger::TimestampPrecision::Millis))
         .init();
@@ -27,11 +26,11 @@ async fn main() -> std::io::Result<()> {
     let pool = app::db::create_db_pool(&db_url);
     let shortener = app::shortener::Shortener::new();
 
-    info!("Serving on {}", app_addr);
     HttpServer::new(move || {
         App::new()
             .data(pool.clone())
             .data(shortener.clone())
+            .wrap(middleware::Logger::default())
             .configure(app::config::config)
     })
     .bind(app_addr)?
