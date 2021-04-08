@@ -3,7 +3,7 @@ use super::{
     models::{Link, LongLinkDTO},
     shortener::Shortener,
 };
-use actix_web::{http::header, http::StatusCode, web, HttpRequest, HttpResponse, Responder};
+use actix_web::{http::header, web, HttpRequest, HttpResponse, Responder};
 
 pub async fn create_link(
     req: HttpRequest,
@@ -21,7 +21,7 @@ pub async fn create_link(
         }
         Err(e) => {
             log::error!("{}", e);
-            HttpResponse::build(StatusCode::INTERNAL_SERVER_ERROR).finish()
+            HttpResponse::InternalServerError().finish()
         }
     }
 }
