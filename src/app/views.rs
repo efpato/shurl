@@ -1,24 +1,17 @@
-use super::db::Pool;
-use super::models::{Link, LongLinkDTO};
-use super::shortener::Shortener;
+use super::{
+    db::Pool,
+    models::{Link, LongLinkDTO},
+    shortener::Shortener,
+};
 use actix_web::{http::header, http::StatusCode, web, HttpRequest, HttpResponse, Responder};
 
-pub async fn index() -> impl Responder {
-    HttpResponse::Ok().body("It's a urlshortener service.")
-}
-
 pub async fn create_link(
-    request: HttpRequest,
+    req: HttpRequest,
     link: web::Json<LongLinkDTO>,
     pool: web::Data<Pool>,
     shortener: web::Data<Shortener>,
 ) -> impl Responder {
-    let host = request
-        .headers()
-        .get(header::HOST)
-        .unwrap()
-        .to_str()
-        .unwrap();
+    let host = req.headers().get(header::HOST).unwrap().to_str().unwrap();
 
     match Link::insert(link.into_inner(), &pool.get().unwrap()) {
         Ok(link) => {

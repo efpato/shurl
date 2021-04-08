@@ -9,17 +9,11 @@ Simple URL shortener
 curl -XPOST \
      -H "Content-Type: application/json" \
      -d '{"url": "https://doc.rust-lang.org/book/title-page.html", "keep_sec": 3600}' \
-     http://localhost:8080
+     http://localhost:8080/api/links
 
 # generate a permanent short link
 curl -XPOST \
      -H "Content-Type: application/json" \
      -d '{"url": "https://doc.rust-lang.org/book/title-page.html"}' \
-     http://localhost:8080
-```
-
-### Development environment
-```bash
-docker-compose up -d
-diesel setup
+     http://localhost:8080/api/links
 ```
