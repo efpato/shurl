@@ -1,0 +1,6 @@
+app_host = "0.0.0.0"
+app_port = 8080
+app_user = "user"
+app_pass = "pass"
+db_url = "postgres://username:password@localhost:5432/shurl"
+log_level = "info"
