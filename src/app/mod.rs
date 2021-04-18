@@ -1,7 +1,8 @@
 mod auth;
-pub mod config;
 pub mod db;
 pub mod models;
+pub mod routes;
+pub mod serializers;
 pub mod shortener;
 pub mod views;
 

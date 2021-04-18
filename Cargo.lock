@@ -1459,7 +1459,6 @@ dependencies = [
  "log",
  "pretty_env_logger",
  "serde",
- "serde_json",
  "toml",
 ]
 

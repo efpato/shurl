@@ -1,6 +1,6 @@
 CREATE TABLE links (
     id BIGSERIAL PRIMARY KEY,
     url VARCHAR NOT NULL,
-    created_at TIMESTAMP NOT NULL,
+    created_at TIMESTAMP NOT NULL DEFAULT now(),
     expired_at TIMESTAMP NULL
 )

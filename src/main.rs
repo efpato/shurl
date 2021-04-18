@@ -18,7 +18,7 @@ struct Config {
     log_level: String,
 }
 
-#[actix_web::main()]
+#[actix_web::main]
 async fn main() -> std::io::Result<()> {
     let content = std::fs::read_to_string("configs/default.toml").expect("Config file not found!");
     let config: Config = toml::from_str(content.as_str()).expect("Couldn't parse config file!");
@@ -48,7 +48,7 @@ async fn main() -> std::io::Result<()> {
             .data(pool.clone())
             .data(shortener.clone())
             .wrap(middleware::Logger::default())
-            .configure(app::config::config)
+            .configure(app::routes::init_routes)
     })
     .bind(format!("{}:{}", app_host, app_port))?
     .run()
