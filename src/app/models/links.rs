@@ -1,8 +1,4 @@
 use crate::app::db::Connection;
-use crate::app::serializers::{
-    deserialize_optional_naive_datetime, serialize_naive_datetime,
-    serialize_optional_naive_datetime,
-};
 use crate::schema::links::{self, dsl::*};
 use chrono::NaiveDateTime;
 use diesel::prelude::*;
@@ -12,11 +8,7 @@ use serde::{Deserialize, Serialize};
 pub struct Link {
     pub id: i64,
     pub url: String,
-
-    #[serde(serialize_with = "serialize_naive_datetime")]
     pub created_at: NaiveDateTime,
-
-    #[serde(serialize_with = "serialize_optional_naive_datetime")]
     pub expired_at: Option<NaiveDateTime>,
 }
 
@@ -24,8 +16,6 @@ pub struct Link {
 #[table_name = "links"]
 pub struct CreateLink {
     pub url: String,
-
-    #[serde(deserialize_with = "deserialize_optional_naive_datetime")]
     pub expired_at: Option<NaiveDateTime>,
 }
 
