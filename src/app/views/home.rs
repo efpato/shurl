@@ -11,7 +11,7 @@ pub async fn follow_link(
     let conn = pool.get().expect("Couldn't get db connection!");
 
     match shortener.decode(hash.into_inner()) {
-        Ok(id) => match web::block(move || Link::find_by_id(id, &conn)).await {
+        Ok(id) => match web::block(move || Link::update(id, &conn)).await {
             Ok(link) => HttpResponse::Found()
                 .header(header::LOCATION, link.url)
                 .finish(),

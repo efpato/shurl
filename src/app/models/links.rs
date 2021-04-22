@@ -8,6 +8,7 @@ use serde::{Deserialize, Serialize};
 pub struct Link {
     pub id: i64,
     pub url: String,
+    pub redirect_count: i32,
     pub created_at: NaiveDateTime,
     pub expired_at: Option<NaiveDateTime>,
 }
@@ -31,6 +32,12 @@ impl Link {
     pub fn insert(new_link: CreateLink, conn: &Connection) -> QueryResult<Link> {
         diesel::insert_into(links::table)
             .values(&new_link)
+            .get_result::<Link>(conn)
+    }
+
+    pub fn update(link_id: i64, conn: &Connection) -> QueryResult<Link> {
+        diesel::update(links.filter(id.eq(link_id)))
+            .set(redirect_count.eq(redirect_count + 1))
             .get_result::<Link>(conn)
     }
 
